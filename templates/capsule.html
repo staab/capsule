@@ -3,7 +3,9 @@
 {% block content %}
 
 <div class="mb-16">
-  <h1 class="text-lg">This capsule was created on {{capsule.created}}</h1>
+  <h1 class="text-lg">
+    {{capsule.title}} - created on {{capsule.created}}
+  </h1>
   <small class="pb-2 text-xs">
     {% if capsule.html %}
       (It was revealed on {{capsule.reveals}})

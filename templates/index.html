@@ -3,15 +3,22 @@
 {% block content %}
 
 <h1 class="text-xl sm:text-2xl">To create a capsule,</h1>
-<h2 class="pb-2">
-  enter your secret, and select when you'd like it to be made public.
-</h2>
+<h2>enter your secret, and select when you'd like it to be made public.</h2>
 <form class="m-auto mb-16">
   <div class="capsule pt-4">
+    <div class="sm:flex justify-between items-center pt-4">
+      <label for="title" class="whitespace-no-wrap inline-block pr-4">Name your capsule:</label>
+      <input
+        type="text"
+        name="title"
+        class="border bg-gray-100 text-gray-900 w-full rounded px-2 pr-4 py-1 text-sm my-2" />
+    </div>
+    <p class="error error--title hidden my-2 p-2 rounded bg-red-700">
+      Please enter a title for your capsule.
+    </p>
     <textarea
       name="markdown"
-      class="border bg-gray-100 text-gray-900 w-full rounded px-2 pr-4 py-1 text-sm"
-      autofocus="autofocus"
+      class="border bg-gray-100 text-gray-900 w-full rounded px-2 pr-4 py-1 text-sm my-2"
       rows="6"></textarea>
     <p class="error error--markdown hidden my-2 p-2 rounded bg-red-700">
       Please enter a secret.
@@ -85,7 +92,13 @@
   $('form').addEventListener('submit', async e => {
     e.preventDefault()
 
-    $('.error').classList.add('hidden')
+    $$('.error').forEach($e => $e.classList.add('hidden'))
+
+    if (!$('[name=title]').value.trim()) {
+      $('.error--title').classList.remove('hidden')
+
+      return
+    }
 
     if (!$('[name=markdown]').value.trim()) {
       $('.error--markdown').classList.remove('hidden')
@@ -96,6 +109,7 @@
     const res = await fetch('/api/capsule', {
       method: 'POST',
       body: JSON.stringify({
+        title: $('[name=title]').value,
         reveals: $('[name=reveals]').value,
         markdown: $('[name=markdown]').value,
       }),

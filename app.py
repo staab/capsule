@@ -87,6 +87,7 @@ Db.connect()
 Db.exec("""
 create table if not exists capsule (
     id serial,
+    title text NOT NULL,
     created timestamp NOT NULL,
     reveals timestamp NOT NULL,
     markdown text NOT NULL,
@@ -115,7 +116,7 @@ def capsule_list():
 
     capsules = Db.all("""
     select
-      id, to_char(created, 'yyyy-mm-dd') as created, to_char(reveals, 'yyyy-mm-dd') as reveals,
+      id, title, to_char(created, 'yyyy-mm-dd') as created, to_char(reveals, 'yyyy-mm-dd') as reveals,
       case when reveals < now() then html else null end as html
     from capsule
     order by created desc
@@ -140,7 +141,7 @@ def capsule_list():
 def capsule_detail(id):
     capsule = Db.one("""
     select
-      id, to_char(created, 'yyyy-mm-dd') as created, to_char(reveals, 'yyyy-mm-dd') as reveals,
+      id, title, to_char(created, 'yyyy-mm-dd') as created, to_char(reveals, 'yyyy-mm-dd') as reveals,
       case when reveals < now() then html else null end as html
     from capsule
     where id = %(id)s
@@ -162,8 +163,8 @@ def api_render():
 @app.route('/api/capsule', methods=['POST'])
 def api_capsule_post():
     id = Db.val("""
-    insert into capsule (created, reveals, markdown, html)
-    values (now(), %(reveals)s, %(markdown)s, %(html)s)
+    insert into capsule (created, title, reveals, markdown, html)
+    values (now(), %(title)s, %(reveals)s, %(markdown)s, %(html)s)
     returning id
     """, merge(request.json, {
         'html': md_to_html(request.json['markdown']),
