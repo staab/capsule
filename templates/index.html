@@ -5,17 +5,17 @@
 <h1 class="text-xl sm:text-2xl">To create a capsule,</h1>
 <h2>enter your secret, and select when you'd like it to be made public.</h2>
 <form class="m-auto mb-16">
+  <div class="sm:flex justify-between items-center pt-4">
+    <label for="title" class="whitespace-no-wrap inline-block pr-4">Name your capsule:</label>
+    <input
+      type="text"
+      name="title"
+      class="border bg-gray-100 text-gray-900 w-full rounded px-2 pr-4 py-1 text-sm my-2" />
+  </div>
+  <p class="error error--title hidden my-2 p-2 rounded bg-red-700">
+    Please enter a title for your capsule.
+  </p>
   <div class="capsule pt-4">
-    <div class="sm:flex justify-between items-center pt-4">
-      <label for="title" class="whitespace-no-wrap inline-block pr-4">Name your capsule:</label>
-      <input
-        type="text"
-        name="title"
-        class="border bg-gray-100 text-gray-900 w-full rounded px-2 pr-4 py-1 text-sm my-2" />
-    </div>
-    <p class="error error--title hidden my-2 p-2 rounded bg-red-700">
-      Please enter a title for your capsule.
-    </p>
     <textarea
       name="markdown"
       class="border bg-gray-100 text-gray-900 w-full rounded px-2 pr-4 py-1 text-sm my-2"
@@ -30,8 +30,8 @@
       Click <span class="show-preview anchor cursor-pointer">here</span> to see a preview.
     </small>
   </div>
-  <div class="preview hidden">
-    <p class="preview__contents gfm p-2 rounded bg-blue-800 border border-blue-600"></p>
+  <div class="preview hidden pt-4">
+    <p class="preview__contents gfm p-2 rounded bg-blue-800 border border-blue-600 my-2"></p>
     <small class="text-xs">
       Click <span class="hide-preview anchor">here</span> to edit your capsule.
     </small>
