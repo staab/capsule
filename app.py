@@ -119,7 +119,7 @@ def capsule_list():
       id, title, to_char(created, 'yyyy-mm-dd') as created, to_char(reveals, 'yyyy-mm-dd') as reveals,
       case when reveals < now() then html else null end as html
     from capsule
-    order by created desc
+    order by capsule.created desc
     limit %(limit)s
     offset %(offset)s
     """, {
