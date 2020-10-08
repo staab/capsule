@@ -1,26 +1,28 @@
 {% extends "_base.html" %}
 
-{% block html_body %}
+{% block content %}
 
-<div class="flex inset-0 justify-center items-center fixed p-4">
-  <div class="-mt-32 sm:mt-0 sm:max-w-md">
-    <h1 class="text-lg">This capsule was created on {{capsule.created}}</h1>
-    <small class="pb-2 text-xs">
-      {% if capsule.markdown %}
-        (It was revealed on {{capsule.reveals}})
-      {% else %}
-        (It will be revealed on {{capsule.reveals}})
-      {% endif %}
-    </small>
-    {% if capsule.markdown %}
-      <p class="preview__contents mt-4 p-2 rounded bg-blue-800 border border-blue-600">
-        {{capsule.markdown|safe}}
-      </p>
+<div class="mb-16">
+  <h1 class="text-lg">This capsule was created on {{capsule.created}}</h1>
+  <small class="pb-2 text-xs">
+    {% if capsule.html %}
+      (It was revealed on {{capsule.reveals}})
+    {% else %}
+      (It will be revealed on {{capsule.reveals}})
     {% endif %}
-  </div>
+  </small>
+  {% if capsule.html %}
+    <div class="gfm mt-4 p-2 rounded bg-blue-800 border border-blue-600">
+      {{capsule.html|safe}}
+    </div>
+  {% endif %}
 </div>
 
-<div class="absolute top-0 left-0 p-4">
+{% endblock %}
+
+{% block html_body %}
+
+<div class="flex justify-center lg:justify-start w-full fixed bottom-0 lg:top-0 left-0 p-4 bg-gray-900">
   <a href="/">
     Home
   </a>

@@ -1,8 +1,8 @@
-import os
+import os, bleach
 from psycopg2 import connect
 from psycopg2.extras import RealDictCursor
 from flask import Flask, request, render_template, make_response, redirect, abort
-from markdown import markdown
+from markdown import Markdown
 from mdx_gfm import GithubFlavoredMarkdownExtension
 
 def env(k):
@@ -13,9 +13,22 @@ def first(xs):
     for x in xs or []:
         return x
 
+def merge(a, b):
+    result = {}
 
-def md(contents):
-    return markdown(contents)
+    for k, v in a.items():
+        result[k] = v
+
+    for k, v in b.items():
+        result[k] = v
+
+    return result
+
+
+md = Markdown(extensions=[GithubFlavoredMarkdownExtension()])
+
+def md_to_html(contents):
+    return md.convert(bleach.clean(contents, tags=[]))
 
 
 # Database helpers
@@ -78,7 +91,8 @@ create table if not exists capsule (
     id serial,
     created timestamp NOT NULL,
     reveals timestamp NOT NULL,
-    markdown text NOT NULL
+    markdown text NOT NULL,
+    html text NOT NULL
 )
 """)
 
@@ -94,12 +108,30 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/capsule/<int:id>')
+@app.route('/capsules')
+def capsule_list():
+    capsules = Db.all("""
+    select
+      id, to_char(created, 'yyyy-mm-dd') as created, to_char(reveals, 'yyyy-mm-dd') as reveals,
+      case when reveals < now() then html else null end as html
+    from capsule
+    order by created desc
+    limit %(limit)s
+    offset %(offset)s
+    """, {
+        'limit': request.args.get('limit', 100),
+        'offset': request.args.get('offset', 0),
+    })
+
+    return render_template("capsules.html", capsules=capsules)
+
+
+@app.route('/capsules/<int:id>')
 def capsule_detail(id):
     capsule = Db.one("""
     select
       id, to_char(created, 'yyyy-mm-dd') as created, to_char(reveals, 'yyyy-mm-dd') as reveals,
-      case when reveals < now() then markdown else null end as markdown
+      case when reveals < now() then html else null end as html
     from capsule
     where id = %(id)s
     """, {
@@ -114,15 +146,17 @@ def capsule_detail(id):
 
 @app.route('/api/render', methods=['POST'])
 def api_render():
-    return make_response({"html": md(request.json["markdown"])})
+    return make_response({"html": md_to_html(request.json["markdown"])})
 
 
 @app.route('/api/capsule', methods=['POST'])
 def api_capsule_post():
     id = Db.val("""
-    insert into capsule (created, reveals, markdown)
-    values (now(), %(reveals)s, %(markdown)s)
+    insert into capsule (created, reveals, markdown, html)
+    values (now(), %(reveals)s, %(markdown)s, %(html)s)
     returning id
-    """, request.json)
+    """, merge(request.json, {
+        'html': md_to_html(request.json['markdown']),
+    }))
 
     return make_response({"id": id})

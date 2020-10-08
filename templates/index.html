@@ -1,49 +1,56 @@
 {% extends "_base.html" %}
 
+{% block content %}
+
+<h1 class="text-xl sm:text-2xl">To create a capsule,</h1>
+<h2 class="pb-2">
+  enter your secret, and select when you'd like it to be made public.
+</h2>
+<form class="m-auto mb-16">
+  <div class="capsule pt-4">
+    <textarea
+      name="markdown"
+      class="border bg-gray-100 text-gray-900 w-full rounded px-2 pr-4 py-1 text-sm"
+      autofocus="autofocus"
+      rows="6"></textarea>
+    <p class="error error--markdown hidden my-2 p-2 rounded bg-red-700">
+      Please enter a secret.
+    </p>
+    <small class="text-xs">
+      Content is rendered with
+      <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">
+        github flavored markdown</a>.
+      Click <span class="show-preview anchor cursor-pointer">here</span> to see a preview.
+    </small>
+  </div>
+  <div class="preview hidden">
+    <p class="preview__contents gfm p-2 rounded bg-blue-800 border border-blue-600"></p>
+    <small class="text-xs">
+      Click <span class="hide-preview anchor">here</span> to edit your capsule.
+    </small>
+  </div>
+  <div class="sm:flex justify-between items-center pt-4">
+    <label for="reveals" class="inline-block">Make it public on:</label>
+    <input name="reveals" type="date" class="text-gray-900 rounded p-2" />
+  </div>
+  <p class="error error--date hidden my-2 p-2 rounded bg-red-700 -mb-4">
+    Please enter a valid date.
+  </p>
+  <div class="flex pt-8">
+    <button type="submit" class="border p-4 rounded bg-blue-800 border-blue-600">
+      Bury it
+    </button>
+  </div>
+</form>
+
+{% endblock %}
+
 {% block html_body %}
 
-<div class="flex inset-0 justify-center items-center fixed p-4">
-  <div class="-mt-32 sm:mt-0 sm:max-w-md">
-    <h1 class="text-2xl">To create a capsule,</h1>
-    <h2 class="pb-2">
-      enter your secret, and select when you'd like it to be visible.
-    </h2>
-    <form class="m-auto">
-      <div class="capsule pt-4">
-        <textarea
-          name="markdown"
-          class="border bg-gray-100 text-gray-900 w-full rounded px-2 pr-4 py-1 text-sm"
-          autofocus="autofocus"></textarea>
-        <p class="error error--markdown hidden my-2 p-2 rounded bg-red-700">
-          Please enter a secret.
-        </p>
-        <small class="text-xs">
-          Content is rendered with
-          <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">
-            github flavored markdown</a>.
-          Click <span class="show-preview anchor cursor-pointer">here</span> to see a preview.
-        </small>
-      </div>
-      <div class="preview hidden">
-        <p class="preview__contents p-2 rounded bg-blue-800 border border-blue-600"></p>
-        <small class="text-xs">
-          Click <span class="hide-preview anchor">here</span> to edit your capsule.
-        </small>
-      </div>
-      <div class="flex justify-between items-center pt-4">
-        <label for="reveals" class="inline-block">Make it public on:</label>
-        <input name="reveals" type="date" class="text-gray-900 rounded p-2" />
-      </div>
-      <p class="error error--date hidden my-2 p-2 rounded bg-red-700 -mb-4">
-        Please enter a valid date.
-      </p>
-      <div class="flex pt-8">
-        <button type="submit" class="border p-4 rounded bg-blue-800 border-blue-600">
-          Bury it
-        </button>
-      </div>
-    </form>
-  </div>
+<div class="flex justify-center lg:justify-start w-full fixed bottom-0 lg:top-0 left-0 p-4 bg-gray-900">
+  <a href="/capsules">
+    View All Capsules
+  </a>
 </div>
 
 <script>
@@ -102,7 +109,7 @@
 
     const {id} = await res.json()
 
-    window.location = `/capsule/${id}`
+    window.location = `/capsules/${id}`
   })
 </script>
 

@@ -1,0 +1,47 @@
+{% extends "_base.html" %}
+
+
+{% block content %}
+
+<h1 class="text-2xl">All capsules</h1>
+<table class="-mx-4 mb-16">
+  <thead>
+    <tr>
+      <th class="py-2 px-4">Number</th>
+      <th class="text-right py-2 px-4">Created</th>
+      <th class="text-right py-2 px-4">Revealed?</th>
+  </thead>
+  <tbody>
+    {% for capsule in capsules %}
+    <tr class="hover:bg-blue-800 capsule-row cursor-pointer" data-capsule="{{capsule.id}}">
+      <td class="py-2 px-4">{{capsule.id}}</td>
+      <td class="text-right py-2 px-4">{{capsule.created}}</td>
+      <td class="text-right py-2 px-4">
+        {% if capsule.html %}<!-- a sparkle emoji -->✨ {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+
+{% block html_body %}
+
+<div class="flex justify-center lg:justify-start w-full fixed bottom-0 lg:top-0 left-0 p-4 bg-gray-900">
+  <a href="/">
+    Home
+  </a>
+</div>
+
+<script>
+  $$('.capsule-row').forEach($e => {
+    $e.addEventListener('click', e => {
+      const id = $e.getAttribute('data-capsule')
+
+      window.location = `/capsules/${id}`
+    })
+  })
+</script>
+
+{% endblock %}

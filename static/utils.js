@@ -2,7 +2,7 @@ const when = (v, f) => v && f(v)
 
 const $ = selector => document.querySelector(selector)
 
-const $$ = selector => document.querySelectorAll(selector)
+const $$ = selector => [].slice.apply(document.querySelectorAll(selector))
 
 const $clear = selector => {
   const node = $(selector)

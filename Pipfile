@@ -8,9 +8,10 @@ verify_ssl = true
 [packages]
 flask = "*"
 psycopg2 = "*"
-markdown = "*"
 py-gfm = "*"
 gunicorn = "*"
+bleach = "*"
+markdown = "==3.2"
 
 [requires]
 python_version = "3.8"
