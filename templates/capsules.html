@@ -9,14 +9,14 @@
     <tr>
       <th class="text-left py-2 px-4">Title</th>
       <th class="text-left py-2 px-4">Created</th>
-      <th class="text-left py-2 px-4">Revealed?</th>
+      <th class="text-right py-2 px-4">Revealed?</th>
   </thead>
   <tbody>
     {% for capsule in capsules %}
     <tr class="hover:bg-blue-800 capsule-row cursor-pointer" data-capsule="{{capsule.id}}">
       <td class="py-2 px-4">{{capsule.title}}</td>
       <td class="py-2 px-4">{{capsule.created}}</td>
-      <td class="py-2 px-4">
+      <td class="text-right py-2 px-4">
         {% if capsule.html %}<!-- a sparkle emoji -->✨ {% endif %}
       </td>
     </tr>
