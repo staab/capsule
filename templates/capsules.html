@@ -27,12 +27,12 @@
 {% if total > per_page %}
 <div class="flex justify-between">
   {% if offset > 0 %}
-  <a href="/capsules?limit={{per_page}}&offset={{offset - per_page}}">&lt; Prev</a>
+  <a href="/capsules?limit={{per_page}}&offset={{offset - per_page}}">&lt; Prevous Page</a>
   {% else %}
   <span> </span>
   {% endif %}
   {% if total > limit + offset %}
-  <a href="/capsules?limit={{per_page}}&offset={{offset + per_page}}">Next &gt;</a>
+  <a href="/capsules?limit={{per_page}}&offset={{offset + per_page}}">Next Page &gt;</a>
   {% endif %}
 </div>
 {% endif %}

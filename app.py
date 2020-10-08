@@ -109,7 +109,7 @@ def index():
 
 @app.route('/capsules')
 def capsule_list():
-    per_page = 3
+    per_page = 50
     limit = int(request.args.get('limit', per_page))
     offset = int(request.args.get('offset', 0))
     total = Db.val("select count(*) from capsule")
