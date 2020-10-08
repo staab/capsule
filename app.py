@@ -108,6 +108,11 @@ def index():
 
 @app.route('/capsules')
 def capsule_list():
+    per_page = 3
+    limit = int(request.args.get('limit', per_page))
+    offset = int(request.args.get('offset', 0))
+    total = Db.val("select count(*) from capsule")
+
     capsules = Db.all("""
     select
       id, to_char(created, 'yyyy-mm-dd') as created, to_char(reveals, 'yyyy-mm-dd') as reveals,
@@ -117,11 +122,18 @@ def capsule_list():
     limit %(limit)s
     offset %(offset)s
     """, {
-        'limit': request.args.get('limit', 100),
-        'offset': request.args.get('offset', 0),
+        'limit': limit,
+        'offset': offset,
     })
 
-    return render_template("capsules.html", capsules=capsules)
+    return render_template(
+        "capsules.html",
+        capsules=capsules,
+        limit=limit,
+        offset=offset,
+        total=total,
+        per_page=per_page
+    )
 
 
 @app.route('/capsules/<int:id>')

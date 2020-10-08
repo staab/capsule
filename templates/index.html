@@ -47,7 +47,11 @@
 
 {% block html_body %}
 
-<div class="flex justify-center lg:justify-start w-full fixed bottom-0 lg:top-0 left-0 p-4 bg-gray-900">
+<div class="flex justify-center lg:hidden w-full fixed bottom-0 p-4 bg-gray-900">
+  <a href="/capsules" class="mr-4">View All Capsules</a>
+  <a href="https://github.com/staab/capsule" target="_blank">GitHub</a>
+</div>
+<div class="hidden lg:block flex justify-start fixed top-0 left-0 p-4">
   <a href="/capsules" class="mr-4">View All Capsules</a>
   <a href="https://github.com/staab/capsule" target="_blank">GitHub</a>
 </div>
