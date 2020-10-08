@@ -1,0 +1,29 @@
+{% extends "_base.html" %}
+
+{% block html_body %}
+
+<div class="flex inset-0 justify-center items-center fixed p-4">
+  <div class="-mt-32 sm:mt-0 sm:max-w-md">
+    <h1 class="text-lg">This capsule was created on {{capsule.created}}</h1>
+    <small class="pb-2 text-xs">
+      {% if capsule.markdown %}
+        (It was revealed on {{capsule.reveals}})
+      {% else %}
+        (It will be revealed on {{capsule.reveals}})
+      {% endif %}
+    </small>
+    {% if capsule.markdown %}
+      <p class="preview__contents mt-4 p-2 rounded bg-blue-800 border border-blue-600">
+        {{capsule.markdown|safe}}
+      </p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="absolute top-0 left-0 p-4">
+  <a href="/">
+    Home
+  </a>
+</div>
+
+{% endblock %}
