@@ -42,7 +42,7 @@ class Db(object):
             Db.conn.close()
 
         Db.conn = connect(env("DATABASE_URL"), cursor_factory=RealDictCursor)
-        Db.exec("set search_path to app")
+        Db.exec("set search_path to capsule")
 
     @staticmethod
     def exec(q, args=[], cb=None):
@@ -85,7 +85,7 @@ Db.connect()
 # Migrate database
 
 
-Db.exec("create schema if not exists app")
+Db.exec("create schema if not exists capsule")
 Db.exec("""
 create table if not exists capsule (
     id serial,
